@@ -1,0 +1,698 @@
+/* ==========================================================================
+   Retail Pulse Dashboard
+   Sections: 1 Variables · 2 Base · 3 Layout · 4 Top bar · 5 Metric cards
+             6 Sales report · 7 Product inventory · 8 Customer insights
+             9 Responsive
+   ========================================================================== */
+
+
+/* 1. Variables
+   Change colours here and they update everywhere.
+   -------------------------------------------------------------------------- */
+:root {
+  /* Core palette */
+  --ink: #152238;
+  --muted: #7a8494;
+  --line: #e9edf3;
+  --canvas: #f5f6f8;
+  --blue: #498bc0;
+  --shadow: 0 16px 38px rgba(36, 48, 68, 0.07);
+
+  /* Customer Insights card: same look as the "Your retail performance" card */
+  --insight-bg: #fff;
+  --insight-border: var(--line);
+  --graph-fill: linear-gradient(90deg, #94c2e1, #4e91c3); /* same blues as the revenue bars */
+  --graph-track: #e7edf3;
+  --graph-text: var(--ink);
+  --graph-text-muted: var(--muted);
+}
+
+
+/* 2. Base
+   -------------------------------------------------------------------------- */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--canvas);
+  color: var(--ink);
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
+
+h1,
+h2,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  font-size: 1.25rem;
+  letter-spacing: -0.035em;
+  margin-bottom: 5px;
+}
+
+.muted,
+.welcome p {
+  color: var(--muted);
+  font-size: 0.86rem;
+  margin-bottom: 0;
+}
+
+.section-kicker {
+  color: #8c96a4;
+  font-size: 0.69rem;
+  font-weight: 800;
+  letter-spacing: 0.11em;
+  margin-bottom: 8px;
+}
+
+
+/* 3. Layout
+   -------------------------------------------------------------------------- */
+.dashboard {
+  max-width: 1250px;
+  margin: 0 auto;
+  padding: 36px 30px 54px;
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 295px;
+  gap: 20px;
+  align-items: start;
+}
+
+/* Shared white card look */
+.metric-card,
+.report-card,
+.inventory-card,
+.insight-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+}
+
+
+/* 4. Top bar
+   -------------------------------------------------------------------------- */
+.topbar {
+  display: grid;
+  grid-template-columns: 190px 1fr auto;
+  align-items: center;
+  gap: 24px;
+  padding: 4px 2px 30px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 800;
+}
+
+.brand-mark {
+  display: grid;
+  place-items: center;
+  width: 31px;
+  height: 31px;
+  border-radius: 9px;
+  background: linear-gradient(135deg, #e5f1fa, #8bb6d8);
+  color: #27648f;
+  font-size: 22px;
+}
+
+.today {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 13px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  color: #566174;
+  font-size: 0.82rem;
+}
+
+.calendar {
+  color: var(--blue);
+}
+
+
+/* 5. Metric cards
+   -------------------------------------------------------------------------- */
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.metric-card {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  min-height: 112px;
+  padding: 17px 16px;
+}
+
+.metric-card p {
+  color: var(--muted);
+  font-size: 0.78rem;
+  margin-bottom: 5px;
+}
+
+.metric-card strong {
+  display: block;
+  font-size: 1.48rem;
+  letter-spacing: -0.04em;
+}
+
+.metric-card small {
+  color: #9aa3b1;
+  font-size: 0.72rem;
+}
+
+.metric-icon {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  font-weight: 800;
+}
+
+/* Icon colour variants */
+.blue   { background: #e9f3fc; color: #4080b4; }
+.violet { background: #f0edfc; color: #7b70bb; }
+.orange { background: #fff2e5; color: #db985a; }
+.red    { background: #fcecee; color: #d16571; }
+
+
+/* 6. Sales report (total + revenue chart)
+   -------------------------------------------------------------------------- */
+.report-card {
+  display: grid;
+  grid-template-columns: 32% 1fr;
+  min-height: 265px;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+.report-copy {
+  padding: 32px 30px;
+  border-right: 1px solid var(--line);
+}
+
+.report-copy h2,
+.section-heading h2 {
+  font-size: 1.13rem;
+  letter-spacing: -0.025em;
+  margin-bottom: 5px;
+}
+
+.big-total {
+  display: block;
+  font-size: 2.45rem;
+  letter-spacing: -0.055em;
+  margin: 26px 0 10px;
+}
+
+.growth {
+  margin: 0;
+  color: #4eaf96;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.chart-panel {
+  padding: 29px 32px 20px;
+}
+
+.chart-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #697589;
+  font-size: 0.8rem;
+}
+
+.chart-head small {
+  margin-left: auto;
+  color: #a0a9b6;
+}
+
+.legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--blue);
+}
+
+.revenue-chart {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  height: 178px;
+  padding: 22px 0 0;
+  border-bottom: 1px solid #e7edf3;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 43px,
+    #f1f4f7 44px
+  );
+}
+
+.bar-group {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 7px;
+  height: 100%;
+  min-width: 34px;
+}
+
+.bar-group span {
+  color: #8d97a5;
+  font-size: 0.67rem;
+  white-space: nowrap;
+}
+
+.bar {
+  width: min(32px, 80%);
+  min-height: 10px;
+  border-radius: 7px 7px 3px 3px;
+  background: linear-gradient(180deg, #94c2e1, #4e91c3);
+}
+
+
+/* 7. Product inventory (search, filter, table)
+   -------------------------------------------------------------------------- */
+.inventory-card {
+  overflow: hidden;
+}
+
+.section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 23px 24px 13px;
+}
+
+.section-heading p {
+  margin-bottom: 0;
+}
+
+.stock-note {
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+
+.stock-note i {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 4px;
+  border-radius: 50%;
+  background: #e7a66a;
+}
+
+.filters {
+  display: flex;
+  gap: 10px;
+  padding: 0 24px 17px;
+}
+
+.search-field {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 7px;
+  padding: 0 11px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  color: #8d97a5;
+}
+
+.search-field input {
+  width: 100%;
+  min-height: 38px;
+  border: 0;
+  outline: 0;
+  color: var(--ink);
+  font: inherit;
+}
+
+select {
+  min-height: 40px;
+  padding: 0 10px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+  color: #566174;
+  font: inherit;
+}
+
+.table-wrap {
+  max-height: 430px; /* crops the list; scroll inside it to see the rest */
+  overflow: auto;
+}
+
+table {
+  width: 100%;
+  min-width: 820px;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 13px 15px;
+  border-top: 1px solid var(--line);
+  text-align: left;
+  white-space: nowrap;
+}
+
+th {
+  position: sticky;
+  top: 0;
+  background: #fbfcfd;
+  color: #929baa;
+  font-size: 0.68rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+td {
+  color: #485569;
+  font-size: 0.79rem;
+}
+
+td:first-child {
+  color: var(--ink);
+  font-weight: 750;
+}
+
+.stock-low {
+  color: #be6f38;
+  font-weight: 800;
+}
+
+
+/* 8. Customer insights (gender + top cities bar graphs)
+   -------------------------------------------------------------------------- */
+.insight-card {
+  padding: 26px 24px;
+  background: var(--insight-bg);
+  border-color: var(--insight-border);
+}
+
+.insight-card h2 {
+  margin-bottom: 22px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.4rem;
+  letter-spacing: -0.01em;
+}
+
+.insight-card h3 {
+  margin: 0 0 13px;
+  color: var(--graph-text);
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.insight-card h3 small {
+  margin-left: 4px;
+  color: var(--graph-text-muted);
+  font-weight: 500;
+}
+
+/* Bar graph rows */
+.hbars {
+  margin-bottom: 26px;
+}
+
+.hbar {
+  margin-bottom: 12px;
+}
+
+.hbar-top {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+  color: var(--graph-text);
+  font-size: 0.78rem;
+}
+
+.hbar-value {
+  font-weight: 700;
+}
+
+.hbar-track {
+  height: 9px;
+  border-radius: 99px;
+  background: var(--graph-track);
+  overflow: hidden;
+}
+
+.hbar-fill {
+  height: 100%;
+  border-radius: 99px;
+  background: var(--graph-fill);
+  transition: width 0.5s ease;
+}
+
+/* Inline layout used by the gender graph: label | bar | percent */
+.hbars.inline .hbar {
+  display: grid;
+  grid-template-columns: 86px 1fr 44px;
+  align-items: center;
+  gap: 10px;
+}
+
+.hbars.inline .hbar-top {
+  display: contents;
+}
+
+.hbars.inline .hbar-label {
+  color: var(--graph-text);
+  font-size: 0.78rem;
+}
+
+.hbars.inline .hbar-track {
+  order: 2;
+}
+
+.hbars.inline .hbar-value {
+  order: 3;
+  font-size: 0.78rem;
+  text-align: right;
+}
+
+.data-note {
+  margin: 6px 0 0;
+  color: var(--graph-text-muted);
+  font-size: 0.69rem;
+  line-height: 1.45;
+}
+
+
+/* 9. Responsive
+   -------------------------------------------------------------------------- */
+@media (max-width: 900px) {
+  .metrics {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .report-card {
+    grid-template-columns: 1fr;
+  }
+
+  .report-copy {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .topbar {
+    grid-template-columns: 1fr auto;
+  }
+
+  .welcome {
+    grid-row: 2;
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 560px) {
+  .dashboard {
+    padding: 23px 15px 36px;
+  }
+
+  .metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .topbar {
+    gap: 10px;
+  }
+
+  .today {
+    font-size: 0.72rem;
+  }
+
+  .report-copy,
+  .chart-panel,
+  .section-heading,
+  .filters {
+    padding-left: 17px;
+    padding-right: 17px;
+  }
+
+  .filters {
+    flex-direction: column;
+  }
+
+  .big-total {
+    font-size: 2rem;
+  }
+}
+
+
+/* 10. Inventory interactions: upload button, clickable rows, detail dialog
+   -------------------------------------------------------------------------- */
+.title-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.title-row h2 {
+  margin-bottom: 0;
+}
+
+.upload-msg {
+  min-height: 1.1em;
+  margin: 4px 0 0;
+  font-size: 0.78rem;
+  font-weight: 650;
+}
+
+.upload-msg.ok { color: #3e9a80; }
+.upload-msg.err { color: #c0505d; }
+
+tr.clickable {
+  cursor: pointer;
+}
+
+tr.clickable:hover td,
+tr.clickable:focus td {
+  background: #f3f8fc;
+  outline: none;
+}
+
+.btn {
+  min-height: 40px;
+  padding: 0 16px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+  color: #485569;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn.small { min-height: 30px; padding: 0 12px; font-size: 0.75rem; }
+.btn.primary { border-color: #4e91c3; background: #4e91c3; color: #fff; }
+.btn.danger { color: #c0505d; }
+
+.product-dialog {
+  width: min(520px, 92vw);
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: 0 24px 60px rgba(20, 30, 50, 0.25);
+  color: var(--ink);
+}
+
+.product-dialog::backdrop {
+  background: rgba(21, 34, 56, 0.35);
+}
+
+.product-dialog h2 {
+  margin-bottom: 14px;
+  font-size: 1.15rem;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin: 0 0 18px;
+}
+
+.detail-grid div {
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #f5f8fb;
+}
+
+.detail-grid dt {
+  color: var(--muted);
+  font-size: 0.68rem;
+}
+
+.detail-grid dd {
+  margin: 3px 0 0;
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+
+.dialog-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.dialog-fields label {
+  display: grid;
+  gap: 5px;
+  color: var(--muted);
+  font-size: 0.74rem;
+  font-weight: 700;
+}
+
+.dialog-fields input,
+.dialog-fields select {
+  min-height: 40px;
+  padding: 0 10px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  color: var(--ink);
+  font: inherit;
+}
+
+.dialog-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.dialog-actions .spacer {
+  flex: 1;
+}
