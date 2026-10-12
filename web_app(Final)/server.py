@@ -5,8 +5,8 @@ from functools import partial
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-PORT = int(os.environ.get("PORT", 5051))
-HOST = "0.0.0.0" if "PORT" in os.environ else "127.0.0.1"
+PORT = int(os.environ.get("PORT", 5051))  # hosts like Render provide PORT
+HOST = "0.0.0.0" if "PORT" in os.environ else "127.0.0.1"  # open to the internet only when hosted
 
 PRODUCTS_SQL = """
 SELECT p.product_id, p.category_id, p.product_name, c.category_name, p.price,
@@ -329,4 +329,4 @@ class Handler(SimpleHTTPRequestHandler):
 if __name__ == "__main__":
     print(f"Database: {DB}")
     print(f"Open http://localhost:{PORT}")
-    ThreadingHTTPServer(("127.0.0.1", PORT), partial(Handler, directory=HERE)).serve_forever()
+    ThreadingHTTPServer((HOST, PORT), partial(Handler, directory=HERE)).serve_forever()
